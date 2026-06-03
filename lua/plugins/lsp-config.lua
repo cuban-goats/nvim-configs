@@ -42,20 +42,25 @@ return {
     "mfussenegger/nvim-jdtls",
     ft = { "java" },
     config = function()
-      local jdtls = require("jdtls")
-      local root_markers = { "pom.xml", "build.gradle", ".git" }
-      local root_dir = require("jdtls.setup").find_root(root_markers)
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "java",
+        callback = function()
+          local jdtls = require("jdtls")
+          local root_markers = { "pom.xml", "build.gradle", ".git" }
+          local root_dir = require("jdtls.setup").find_root(root_markers)
 
-      local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" ..
-vim.fn.fnamemodify(root_dir, ":p:h:t")
+          local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" ..
+            vim.fn.fnamemodify(root_dir, ":p:h:t")
 
-      jdtls.start_or_attach({
-        cmd = {
-          "jdtls",
-          "-data", workspace_dir,
-        },
-        root_dir = root_dir,
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
+          jdtls.start_or_attach({
+            cmd = {
+              "/opt/homebrew/bin/jdtls",
+              "-data", workspace_dir,
+            },
+            root_dir = root_dir,
+            capabilities = require('cmp_nvim_lsp').default_capabilities(),
+          })
+        end,
       })
     end,
   },
