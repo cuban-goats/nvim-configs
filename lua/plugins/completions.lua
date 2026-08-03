@@ -15,6 +15,9 @@ return {
 			local cmp = require("cmp")
 			require("luasnip.loaders.from_vscode").lazy_load()
 
+			vim.api.nvim_set_hl(0, "CmpNormalFloat", { link = "NormalFloat" })
+			vim.api.nvim_set_hl(0, "CmpFloatBorder", { link = "FloatBorder" })
+
 			cmp.setup({
 				snippet = {
 					expand = function(args)
@@ -22,8 +25,8 @@ return {
 					end,
 				},
 				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
+					completion = cmp.config.window.bordered({ border = "rounded", winhighlight = "Normal:CmpNormalFloat,FloatBorder:CmpFloatBorder" }),
+					documentation = cmp.config.window.bordered({ border = "rounded", winhighlight = "Normal:CmpNormalFloat,FloatBorder:CmpFloatBorder" }),
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
