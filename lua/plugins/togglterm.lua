@@ -10,7 +10,20 @@ return {
     shade_terminals = true,
     shading_factor = 2,
     start_in_insert = true,
+    winbar_enabled = true,
   },
+  config = function(_, opts)
+    require("toggleterm").setup(opts)
+
+    vim.api.nvim_set_hl(0, "ToggleTermWinSeparator", { fg = "#343434", bg = "#343434" })
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "toggleterm",
+      callback = function()
+        vim.wo.winhl = "WinSeparator:ToggleTermWinSeparator,StatusLine:ToggleTermWinSeparator,StatusLineNC:ToggleTermWinSeparator"
+      end,
+    })
+  end,
   keys = {
     { "<leader>tt", "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
     {
@@ -25,6 +38,7 @@ return {
       end,
       desc = "New terminal",
     },
+
     { "<Esc>", "<C-\\><C-n>", desc = "Unfocus terminal", mode = "t" },
   },
 }
