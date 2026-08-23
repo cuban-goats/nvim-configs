@@ -10,8 +10,6 @@ return {
         indent = {
           enable = true,
         },
-
-        -- 👇 THIS is the modern auto-install switch
         auto_install = true,
       })
     end,
